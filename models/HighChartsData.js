@@ -1,7 +1,7 @@
 var async = require('async'),
 	customFormatDate = require('../lib/customFormatDate'),
 	pokeballTypes = require('../data/pokeballTypes'),
-	TOTAL_POKEMON_COUNT = 890;
+	TOTAL_POKEMON_COUNT = 1010;
 
 function formatDateFromString(dateString){
 	var formattedDate = dateString.split('-'),
