@@ -6,6 +6,17 @@
 		<div class="input-column">
             <div class="input-column-inner trainer-details">
                 <h4>Trainer Information</h4>
+				<div class="input-row">
+					<label>
+                        Generation/Game Received In:
+                        <select name="receivalGame">
+                            <option value="">Select a Gen or Game</option>
+                            <% for(var game in gameList) { %>
+                            <option value="<%= gameList[game]['id'] %>"><%= gameList[game].name %></option>
+                            <% } %>
+                        </select>
+                    </label>
+                </div>
                 <div class="input-row">
                     Trainer Gender:
 				<span class="radio-group">

@@ -186,6 +186,14 @@ function getSortedCountsByCountries(req, resp, next) {
 		next();
 	});
 }
+
+function getSortedCountsByGame(req, resp, next) {
+	req.highChartsData.getSortedCountsByGame(req.currentSubset, function(err, result) {
+		req.data.sortedCountsByGame = result;
+		next();
+	});
+}
+
 function getSortedCountsByPokemon(req, res, next) {
 	req.highChartsData.getSortedCountsByPokemon(req.currentSubset, function(err, result) {
 		req.data.sortedCountsByPokemon = result;
@@ -368,6 +376,7 @@ module.exports = {
 	setPokemonGroup: setPokemonGroup,
 
 	getSortedCountsByCountries: getSortedCountsByCountries,
+	getSortedCountsByGame: getSortedCountsByGame,
 	getSortedCountsByPokemon: getSortedCountsByPokemon,
 	getCountsByLevels: getCountsByLevels,
 	getQuickStats: getQuickStats,

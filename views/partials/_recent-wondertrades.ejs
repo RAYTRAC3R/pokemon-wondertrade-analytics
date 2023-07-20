@@ -6,6 +6,7 @@
 			<td colspan="2">&nbsp;</td>
 		</tr>
 		<tr>
+			<th class="pokemon-details">Game</th>
 			<th class="pokemon-details">Pokemon</th>
 			<th class="pokemon-details">Level</th>
 			<th class="pokemon-details">Nickname</th>
@@ -27,6 +28,11 @@
 	<tbody>
 	<% wondertrades.forEach(function(wondertrade){ %>
 		<tr data-unique='<%= wondertrade.userId %>/<%= wondertrade.date %>/<%= wondertrade.time %>'>
+			<td>
+    			<% if(wondertrade.receivalGame && gameHash[wondertrade.receivalGame]) { %>
+    				<a href="/data/games/<%= wondertrade.receivalGame %>"><%= gameHash[wondertrade.receivalGame] %></a>
+    			<% } %>
+    		</td>
     		<td><a href="/data/pokemon/<%= wondertrade.pokemonId %>"><%= pokemonHash[wondertrade.pokemonId] %><% if(wondertrade.isShiny === true) { %><i class="pokemon-icon pkmn-s<%= wondertrade.pokemonId %>"></i></a><% } else if(wondertrade.isShiny === false) { %><i class="pokemon-icon pkmn-<%= wondertrade.pokemonId %>"></i></a><% } %></td>
     		<td><%= wondertrade.level %></td>
     		<td>

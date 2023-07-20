@@ -2,7 +2,8 @@ module.exports =  function(app, dataStore, passport, memoryStore) {
 	var WondertradeModel = require('../models/wondertrade'),
 		HighChartsData = require('../models/HighChartsData'),
 		PokemonList = memoryStore.store.PokemonList,
-		CountryList = memoryStore.store.CountryList;
+		CountryList = memoryStore.store.CountryList,
+		GameList = memoryStore.store.GameList;
 
 
 	app.get('/wondertrade', function(request, res){
@@ -25,6 +26,7 @@ module.exports =  function(app, dataStore, passport, memoryStore) {
 						title: 'New Wonder Trade',
 						pokemonList: PokemonList,
 						countryList: CountryList,
+						gameList: GameList,
 						user: request.user,
 						pageState: '',
 						stateMessage:	''
@@ -54,6 +56,7 @@ module.exports =  function(app, dataStore, passport, memoryStore) {
 							title: 'New Wonder Trade',
 							pokemonList: PokemonList,
 							countryList: CountryList,
+							gameList: GameList,
 							user: request.user,
 							pageState: 'success',
 							stateMessage:	'Your Wonder Trade was successfully added.'
@@ -65,6 +68,7 @@ module.exports =  function(app, dataStore, passport, memoryStore) {
 						title: 'New Wonder Trade',
 						pokemonList: PokemonList,
 						countryList: CountryList,
+						gameList: GameList,
 						user: request.user,
 						pageState: 'error',
 						stateMessage:	'There was a problem adding your last wonder trade.'

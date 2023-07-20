@@ -42,13 +42,14 @@ function EmptyCountsByPokemonByDate () {
 	return pokemonList;
 }
 
-var HighChartsData = function(pokemonHash, countryHash) {
+var HighChartsData = function(pokemonHash, countryHash, gameHash) {
 
 	this.deserializedResults = [];
 	this.cachedData = {};
 	this.dailyThreshold = 15;
 	this.pokemonHash = pokemonHash;
 	this.countryHash = countryHash;
+	this.gameHash = gameHash;
 };
 
 HighChartsData.prototype.refreshData = function(jsonResults) {
@@ -143,6 +144,47 @@ HighChartsData.prototype.getSortedCountsByCountries = function(resultSet, callba
 		createCountryCountMap,
 		createCountryCountArray,
 		sortCountryCountArray
+	], function(err, result){
+		callback(err, result);
+	});
+};
+
+HighChartsData.prototype.getSortedCountsByGame = function(resultSet, callback){
+	if(!resultSet) {
+		resultSet = this.deserializedResults;
+	}
+
+	var gameHash = this.gameHash,
+		gameCountMap = {},
+		game,
+		gameCount;
+
+	function createGameCountMap(taskFinished) {
+		async.each(resultSet, function(result, eachCallback){
+
+			game = result.receivalGame;
+			gameCount = gameCountMap[game];
+			gameCountMap[game] = (gameCount) ? (gameCount + 1) : 1;
+			eachCallback();
+		}, taskFinished);
+	}
+
+	function createGameCountArray(taskFinished) {
+		async.map(Object.keys(gameCountMap), function (gameId, gameCallback) {
+			gameCallback(null, [gameHash[gameId], gameCountMap[gameId], gameId]);
+		}, taskFinished);
+	}
+
+	function sortGameCountArray(gameCountArray, taskFinished) {
+		async.sortBy(gameCountArray, function(game, sortCallback){
+			sortCallback(null, game[1]);
+		}, taskFinished);
+	}
+
+	async.waterfall([
+		createGameCountMap,
+		createGameCountArray,
+		sortGameCountArray
 	], function(err, result){
 		callback(err, result);
 	});

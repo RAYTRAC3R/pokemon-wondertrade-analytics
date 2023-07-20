@@ -58,7 +58,7 @@ function sanitizeParams(params, userId) {
 	if(params.trainerId &&
 		params.trainerName &&
 		(/^\d{5}$/).test(params.trainerId) &&
-		parseInt(params.trainerId, 10) <= 65535) {
+		parseInt(params.trainerId, 10) <= 999999) {
 
 		trainerId = params.trainerId;
 		trainerName = params.trainerName;
@@ -73,6 +73,7 @@ function sanitizeParams(params, userId) {
 		pokemonNickname = "";
 	}
 	
+	params.receivalGame = params.receivalGame || false;	
 	params.pokemonId = pokemonId;
 	params.pokeballType = pokeballType || '';
 	params.pokemonNickname = params.pokemonNickname || '';
@@ -100,6 +101,7 @@ var WonderTradeModel = function(params, userId) {
 	params = sanitizeParams(params, userId);
 
 	this.attributes = {
+		"receivalGame": params.receivalGame,
 		"pokemonId" : params.pokemonId,
 		"pokeballType": params.pokeballType,
 		"pokemonNickname" : params.pokemonNickname,

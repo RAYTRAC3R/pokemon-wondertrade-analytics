@@ -11,6 +11,7 @@ module.exports = function(app, dataStore, MemoryStore) {
 	var PokemonList = MemoryStore.store.PokemonList,
 		PokemonHash = MemoryStore.store.PokemonHash,
 		CountryHash = MemoryStore.store.CountryHash;
+		GameHash = MemoryStore.store.GameHash;
 
 	function setupHighChartsData(req, res, next){
 
@@ -52,9 +53,11 @@ module.exports = function(app, dataStore, MemoryStore) {
 			pageState: '',
 			PokemonHash: PokemonHash,
 			CountryHash: CountryHash,
+			GameHash: GameHash,
 			user: req.user,
 			pokemonChart: JSON.stringify(req.data.sortedCountsByPokemon),
-			countryChart: JSON.stringify(req.data.sortedCountsByCountries)
+			countryChart: JSON.stringify(req.data.sortedCountsByCountries),
+			gameChart: JSON.stringify(req.data.sortedCountsByGame)
 		});
 	}
 	function PokemonPage(req, resp){
@@ -116,6 +119,16 @@ module.exports = function(app, dataStore, MemoryStore) {
 			timeTrends: JSON.stringify(req.data.dataCountsSplitByTime),
 			quickstats: req.data.quickstats,
 			user: req.user
+		});
+	}
+	function GamesPage(req, resp){
+		resp.render('data/games', {
+			title: 'Wonder Trade Game Analytics',
+			pageState: '',
+			user: req.user,
+			totalCount: req.resultSize,
+			gameList: req.data.sortedCountsByGame,
+			gameChart: JSON.stringify(req.data.sortedCountsByGame)
 		});
 	}
 	function HiddenAbilitiesPage(req, resp){
@@ -353,6 +366,7 @@ module.exports = function(app, dataStore, MemoryStore) {
 			title: 'Wonder Trade List',
 			pokemonHash: PokemonHash,
 			countryHash: CountryHash,
+			gameHash: GameHash,
 			pageState: '',
 			userTable: req.userTable,
 			user: req.user
@@ -415,6 +429,8 @@ module.exports = function(app, dataStore, MemoryStore) {
 
 	app.get('/data/regions/:regionCode', HighCharts.setSubsetByRegionId, HighCharts.getCountsByGender, HighCharts.getDataCountsSplitByTime,
 		HighCharts.getSortedCountsByPokemon, HighCharts.getCountsBySubRegions, HighCharts.getQuickStats, RegionByIdPage);
+
+	app.get('/data/games', HighCharts.getSortedCountsByGame, GamesPage);
 
 	app.get('/data/hiddenAbilities', HighCharts.setSubsetByHiddenAbilities, HighCharts.getCountsByLevels,
 		HighCharts.getSortedCountsByCountries, HighCharts.getSortedCountsByPokemon, HighCharts.getQuickStats, HiddenAbilitiesPage);

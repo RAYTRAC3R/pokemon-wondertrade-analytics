@@ -6,8 +6,10 @@
 var HighChartsData = require('./HighChartsData'),
 	PokemonList = require('../data/pokemonList.json'),
 	CountryList = require('../data/countryList.json'),
+	GameList = require('../data/gameList.json'),
 	PokemonHash = {},
-	CountryHash = {};
+	CountryHash = {},
+	GameHash = {};
 
 for(var pokemon in PokemonList) {
 	PokemonHash[PokemonList[pokemon].id] = PokemonList[pokemon].name;
@@ -15,6 +17,10 @@ for(var pokemon in PokemonList) {
 
 for(var country in CountryList) {
 	CountryHash[CountryList[country].id] = CountryList[country].name;
+}
+
+for(var game in GameList) {
+	GameHash[GameList[game].id] = GameList[game].name;
 }
 
 /**
@@ -45,12 +51,14 @@ function getWonderTrades(index, max, step, result, redisStore, callback) {
 var MemoryStore = function(redisStore) {
 	this.redisStore = redisStore;
 	this.store = {
-		"highChartsData": new HighChartsData(PokemonHash, CountryHash),
+		"highChartsData": new HighChartsData(PokemonHash, CountryHash, GameHash),
 		"highChartsSize": 0,
 		"PokemonList": PokemonList,
 		"CountryList": CountryList,
+		"GameList": GameList,
 		"PokemonHash": PokemonHash,
-		"CountryHash": CountryHash
+		"CountryHash": CountryHash,
+		"GameHash": GameHash
 	};
 };
 
